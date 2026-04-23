@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mobile App Signup Flow</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 1s ease-in-out;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 1.2rem;
+      padding: 2rem;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.2);
+      text-align: center;
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+
+    .card {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .active {
+      display: block;
+    }
+
+    .illustration {
+      width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+      border-radius: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      color: #333;
+      font-size: 1.6rem;
+      margin-bottom: 0.6rem;
+      word-wrap: break-word;
+    }
+
+    p {
+      color: #555;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      word-wrap: break-word;
+    }
+
+    form input[type="email"],
+    form input[type="password"] {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .btn {
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 0.9rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 0.8rem;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .switch {
+      font-size: 0.8rem;
+      margin-top: 0.6rem;
+    }
+
+    .switch a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .switch a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(0.5rem); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Thank You Animation */
+    .thankyou h2 {
+      color: #2ecc71;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      animation: popIn 0.8s ease;
+    }
+
+    .thankyou p {
+      font-size: 1rem;
+      color: #333;
+      animation: fadeText 1s ease;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fadeText {
+      0% { opacity: 0; transform: translateY(1rem); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Full-Screen Confetti */
+    .confetti {
+      position: absolute;
+      border-radius: 50%;
+      animation: fall 3s linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 320px) {
+      .container { padding: 1.5rem; }
+      h2 { font-size: 1.4rem; }
+      .thankyou h2 { font-size: 1.8rem; }
+      .illustration { max-height: 150px; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="container">
+
+    <!-- Welcome Screen -->
+    <div class="card active" id="welcome">
+      <img src="https://cdn.dribbble.com/users/1162077/screenshots/3848914/programmer.gif" class="illustration" />
+      <h2>Welcome</h2>
+      <p>Please login or sign up to continue using our app.</p>
+      <button class="btn" onclick="showSignup()">Sign up</button>
+      <p class="switch">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+    </div>
+
+    <!-- Sign Up Screen -->
+    <div class="card" id="signup">
+      <h2>Sign Up</h2>
+      <p>Please register to continue using our app.</p>
+      <form onsubmit="submitSignup(event)">
+        <input type="email" value="shivank.ranjan@gmail.com" required />
+        <input type="password" placeholder="••••••••" required />
+        <label><input type="checkbox" required /> I agree to the privacy policy</label>
+        <button class="btn" type="submit">Sign Up</button>
+      </form>
+      <p class="switch">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+    </div>
+
+    <!-- Login Screen -->
+    <div class="card" id="login">
+      <h2>Login Now</h2>
+      <p>Please login to continue using our app.</p>
+      <form onsubmit="submitLogin(event)">
+        <input type="email" value="shivank.ranjan@gmail.com" required />
+        <input type="password" placeholder="••••••••" required />
+        <a href="#" class="forgot">Forgot Password?</a>
+        <button class="btn" type="submit">Login</button>
+      </form>
+      <p class="switch">Don’t have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
+    </div>
+
+    <!-- Thank You Screen -->
+    <div class="card thankyou" id="thankyou">
+      <h2>🎉 Thank You!</h2>
+      <p>Your account setup is complete.</p>
+    </div>
+
+  </section>
+
+  <script>
+    // Screens
+    function showSignup() {
+      document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
+      document.getElementById("signup").classList.add("active");
+    }
+
+    function showLogin() {
+      document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
+      document.getElementById("login").classList.add("active");
+    }
+
+    function submitSignup(e) { e.preventDefault(); showThankYou(); }
+    function submitLogin(e) { e.preventDefault(); showThankYou(); }
+
+    function showThankYou() {
+      document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
+      document.getElementById("thankyou").classList.add("active");
+      createConfetti();
+      setTimeout(() => { clearConfetti(); showWelcome(); }, 3000);
+    }
+
+    function showWelcome() {
+      document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
+      document.getElementById("welcome").classList.add("active");
+    }
+
+    // Confetti
+    function createConfetti() {
+      for (let i = 0; i < 50; i++) {
+        const conf = document.createElement("div");
+        conf.classList.add("confetti");
+        conf.style.left = Math.random() * 100 + "vw";
+        conf.style.backgroundColor = ["#ff7675","#74b9ff","#55efc4","#ffeaa7","#fd79a8"][Math.floor(Math.random()*5)];
+        const size = Math.random() * 8 + 4;
+        conf.style.width = conf.style.height = size + "px";
+        conf.style.animationDelay = Math.random() * 1 + "s";
+        document.body.appendChild(conf);
+      }
+    }
+
+    function clearConfetti() {
+      document.querySelectorAll(".confetti").forEach(c => c.remove());
+    }
+
+    // Background slideshow
+    const backgrounds = [
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=870&q=80",
+      "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=870&q=80",
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=870&q=80",
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=870&q=80",
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=870&q=80",
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=870&q=80",
+      "https://images.unsplash.com/photo-1485217988980-11786ced9454?auto=format&fit=crop&w=870&q=80",
+      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=870&q=80",
+      "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=870&q=80",
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=870&q=80",
+      "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=870&q=80",
+      "https://images.unsplash.com/photo-1533750349088-cd871a92f312?auto=format&fit=crop&w=870&q=80",
+      "https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=870&q=80",
+      "https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=870&q=80",
+      "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=870&q=80"
+    ];
+
+    let bgIndex = 0;
+    function changeBackground() {
+      document.body.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
+      bgIndex = (bgIndex + 1) % backgrounds.length;
+    }
+
+    // Change every 5 seconds
+    changeBackground(); // initial
+    setInterval(changeBackground, 5000);
+
+  </script>
+</body>
+</html>
